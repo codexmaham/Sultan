@@ -1,26 +1,190 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ------------------------------------------------------------------ *
+ * Design tokens — mirror of lib/design-tokens.ts, exposed to Tailwind
+ * v4 utilities (bg-cream, text-espresso, border-stone, font-display…).
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-espresso: #17130f;
+  --color-cream: #f6f0e6;
+  --color-gold: #c79a3c;
+  --color-amber: #e0a836;
+  --color-forest: #2f4a3a;
+  --color-stone: #d8cdbb;
+  --color-espresso-80: rgba(23, 19, 15, 0.8);
+
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(3rem, 9vw, 8rem);
+
+  --spacing-section: clamp(5rem, 12vh, 11rem);
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --breakpoint-xs: 24rem; /* 384px — supports layout from 360px up */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    /* Lenis drives scrolling; keep native smooth off to avoid double easing. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-espresso);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-espresso);
+  }
+
+  /* Visible, on-brand focus for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Hide the native cursor only when the custom cursor is active. */
+  body[data-cursor="on"],
+  body[data-cursor="on"] a,
+  body[data-cursor="on"] button {
+    cursor: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ------------------------------------------------------------------ *
+ * Utilities & components
+ * ------------------------------------------------------------------ */
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 4rem);
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* Film-grain / noise overlay for dark sections. */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: var(--grain-bg);
+    background-size: 180px 180px;
+  }
+
+  /* Animated underline for text links. */
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.15em;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-brand);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Grain data-URI (kept out of markup for cleanliness). */
+:root {
+  --grain-bg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+/* Reveal helper: elements start hidden only when JS/motion is available, so a
+   no-JS or reduced-motion visitor always sees content. */
+.will-reveal {
+  will-change: transform, opacity;
+}
+
+/* Hero Ken Burns — a slow, continuous zoom/drift on the backdrop image. */
+.kenburns {
+  animation: kenburns 24s ease-in-out infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+}
+@keyframes kenburns {
+  0% {
+    transform: scale(1.05) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.16) translate3d(-1.5%, -1.5%, 0);
+  }
+}
+
+
+/* ------------------------------------------------------------------ *
+ * Reduced motion — the site must be fully usable with motion off.
+ * All animation libraries also check this in JS; this is the CSS floor.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain::before {
+    display: none;
+  }
 }
