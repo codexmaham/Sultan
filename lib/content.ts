@@ -11,6 +11,7 @@
 export const SITE = {
   name: "Saghir Sultan Companies",
   shortName: "Saghir Sultan",
+  preloaderTitle: "Saghir Sultan Flour Mills",
   tagline: "Rooted in tradition, powered by quality.",
   founded: 1989,
   location: "Sialkot, Pakistan",
@@ -31,11 +32,11 @@ export const NAV_LINKS = [
 
 export const HERO = {
   since: "Since 1989",
-  headline: "Pure Flour, Perfect Life",
+  headline: "Building Industries. Delivering Trust. Creating Long-Term Value.",
   subline:
-    "Delivering premium quality flour with purity, trust,\nand tradition for a healthier tomorrow.",
-  primaryCta: { label: "Explore Our Products", target: "companies" },
-  secondaryCta: { label: "Contact Us", target: "contact" },
+    "Delivers reliable products and business solutions that help organisations operate efficiently, grow confidently and scale sustainably.",
+  primaryCta: { label: "Request a Consultation", target: "contact" },
+  secondaryCta: { label: "Explore Our Industries", target: "companies" },
   features: [
     { icon: "wheat", label: "100% Pure\n& Natural" },
     { icon: "shield", label: "Trusted\nQuality" },

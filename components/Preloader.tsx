@@ -86,7 +86,7 @@ export function Preloader() {
           aria-hidden="true"
         >
           <div className="relative z-[2] flex flex-col items-center gap-6">
-            <span className="eyebrow text-gold">{SITE.shortName}</span>
+            <span className="eyebrow text-gold">{SITE.preloaderTitle}</span>
             <motion.span
               className="font-display text-[18vw] leading-none tracking-tight sm:text-[12rem]"
               animate={
