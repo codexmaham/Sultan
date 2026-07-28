@@ -2,17 +2,55 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { motion, type Variants } from "framer-motion";
 import { HERO, NAV_LINKS, SITE } from "@/lib/content";
 import { scrollToSection } from "@/lib/smoothScroll";
 import { ToggleButton } from "@/components/motion/ToggleButton";
+import { usePreloaderDone } from "@/lib/usePreloaderDone";
 import { MobileNav } from "./MobileNav";
+
+const stagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+const logoIn: Variants = {
+  hidden: { opacity: 0, scale: 0.4, rotate: -25 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: { type: "spring", stiffness: 260, damping: 16 },
+  },
+};
+
+const dropIn: Variants = {
+  hidden: { opacity: 0, y: -18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 220, damping: 20 },
+  },
+};
+
+const popIn: Variants = {
+  hidden: { opacity: 0, scale: 0.7 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring", stiffness: 300, damping: 18 },
+  },
+};
 
 /**
  * Site header — logo, centred nav, and CTA. Scrolls with the page (not sticky).
+ * Plays a lively staggered entrance the moment the preloader's zoom-through
+ * finishes (or immediately under reduced motion, via usePreloaderDone).
  */
 export function Header() {
   const [activeId, setActiveId] = useState<string>(NAV_LINKS[0].id);
   const [menuOpen, setMenuOpen] = useState(false);
+  const ready = usePreloaderDone();
 
   // Scroll-spy for the active section.
   useEffect(() => {
@@ -45,10 +83,16 @@ export function Header() {
 
   return (
     <>
-      <header className="relative z-50 border-b border-stone/40 bg-cream py-3 text-espresso lg:py-3.5">
-        <div className="container-page relative flex items-center justify-between gap-5">
+      <header className="relative z-50 border-b border-cream/10 bg-pine py-3 text-cream lg:py-3.5">
+        <motion.div
+          className="container-page relative flex items-center justify-between gap-5"
+          variants={stagger}
+          initial="hidden"
+          animate={ready ? "visible" : "hidden"}
+        >
           {/* Brand */}
-          <button
+          <motion.button
+            variants={logoIn}
             onClick={() => scrollToSection("top")}
             className="group flex items-center"
             aria-label={`${SITE.name}: back to top`}
@@ -61,13 +105,14 @@ export function Header() {
               priority
               className="h-11 w-auto drop-shadow-sm transition-transform duration-300 group-hover:-rotate-3 sm:h-12"
             />
-          </button>
+          </motion.button>
 
           {/* Desktop nav — floating glass pill, centred on the header regardless
               of how wide the logo or any side content is */}
-          <nav
+          <motion.nav
+            variants={dropIn}
             aria-label="Primary"
-            className="hidden items-center gap-1 rounded-full border border-espresso/10 bg-white/40 p-1 backdrop-blur-md lg:absolute lg:left-1/2 lg:flex lg:-translate-x-1/2"
+            className="hidden items-center gap-1 rounded-full border border-cream/15 bg-cream/10 p-1 backdrop-blur-md lg:absolute lg:left-1/2 lg:flex lg:-translate-x-1/2"
           >
             {NAV_LINKS.map((link) => (
               <button
@@ -76,17 +121,17 @@ export function Header() {
                 aria-current={activeId === link.id ? "true" : undefined}
                 className={`rounded-full px-3.5 py-2 text-[0.75rem] font-medium tracking-tight transition-colors duration-300 ${
                   activeId === link.id
-                    ? "bg-espresso text-cream"
-                    : "text-espresso/70 hover:bg-espresso/5 hover:text-espresso"
+                    ? "bg-gold text-pine"
+                    : "text-cream/70 hover:bg-cream/10 hover:text-cream"
                 }`}
               >
                 {link.label}
               </button>
             ))}
-          </nav>
+          </motion.nav>
 
           {/* CTA — right side of the navbar, desktop only */}
-          <div className="hidden lg:block">
+          <motion.div variants={popIn} className="hidden lg:block">
             <ToggleButton
               target={HERO.secondaryCta.target}
               variant="solid"
@@ -96,13 +141,12 @@ export function Header() {
             >
               {HERO.secondaryCta.label}
             </ToggleButton>
-          </div>
+          </motion.div>
 
           {/* Mobile toggle */}
-          <button
-            className={`relative z-50 flex h-9 w-9 items-center justify-center lg:hidden ${
-              menuOpen ? "text-cream" : ""
-            }`}
+          <motion.button
+            variants={popIn}
+            className="relative z-50 flex h-9 w-9 items-center justify-center text-cream lg:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -121,8 +165,8 @@ export function Header() {
                 }`}
               />
             </span>
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </header>
 
       <MobileNav

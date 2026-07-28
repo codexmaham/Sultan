@@ -8,6 +8,7 @@ import { ToggleButton } from "@/components/motion/ToggleButton";
 import { useGsapContext } from "@/lib/useGsapContext";
 import { gsap } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { usePreloaderDone } from "@/lib/usePreloaderDone";
 
 /**
  * Light, centered flour-mill hero: a "Since 1989" rule, the "Pure Flour, Perfect
@@ -17,6 +18,7 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
  */
 export function Hero() {
   const reduced = useReducedMotion();
+  const ready = usePreloaderDone();
 
   const scope = useGsapContext((_self, el) => {
     const image = el.querySelector<HTMLElement>("[data-hero-image]");
@@ -69,7 +71,7 @@ export function Hero() {
         {/* Since rule */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={{ duration: 0.7, delay: reduced ? 0 : 0.1 }}
           className="mx-auto mt-2 flex items-center justify-center gap-4 text-gold lg:mt-1"
         >
@@ -90,12 +92,14 @@ export function Hero() {
           as="h1"
           text={HERO.headline}
           delay={reduced ? 0 : 0.25}
+          interactive
+          active={ready}
           className="mx-auto mt-4 max-w-4xl font-display text-[clamp(1.625rem,4.75vw,3rem)] font-medium leading-[0.98] tracking-tight text-espresso"
         />
 
         <motion.p
           initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
           transition={{ duration: 0.8, delay: reduced ? 0 : 0.55 }}
           className="mx-auto mt-4 max-w-xl whitespace-pre-line text-sm leading-relaxed text-espresso/70 sm:text-base"
         >
@@ -104,7 +108,7 @@ export function Hero() {
 
         <motion.div
           initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
           transition={{ duration: 0.8, delay: reduced ? 0 : 0.75 }}
           className="mt-4 mb-4 flex justify-center"
         >

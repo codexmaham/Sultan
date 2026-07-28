@@ -54,13 +54,13 @@ export const ABOUT = {
   heading: "Three decades of doing things properly.",
   paragraphs: [
     "What began as a single premium flour mill in Sialkot has, over three decades, become a multi-sector group trusted across Pakistan. The founding conviction never changed: get the fundamentals right, treat people fairly, and let quality earn its own reputation.",
-    "Today Saghir Sultan Companies spans milling, fuel retail, ethical poultry farming, and commercial real estate, each division run with the same family standards of care, transparency, and long-term thinking that carried us from one grinding stone to a group.",
+    "Today Saghir Sultan Companies spans milling, fuel retail, ethical poultry farming, commercial real estate, and a waterproofing contracting arm in New York, each division run with the same family standards of care, transparency, and long-term thinking that carried us from one grinding stone to a group.",
   ],
   readMore: { label: "Read our full story", target: "companies" },
   stats: [
     { value: 94.5, suffix: "%", label: "Satisfied customers" },
     { value: 1989, suffix: "", label: "Established", isYear: true },
-    { value: 4, suffix: "", label: "Divisions, one standard" },
+    { value: 5, suffix: "", label: "Divisions, one standard" },
   ],
 };
 
@@ -79,7 +79,7 @@ export type Company = {
 
 export const INDUSTRIES = {
   eyebrow: "Our companies",
-  heading: "Four divisions, one standard.",
+  heading: "Five divisions, one standard.",
 };
 
 export const COMPANIES: Company[] = [
@@ -150,6 +150,25 @@ export const COMPANIES: Company[] = [
     imageAlt:
       "A Sultan Real Estate construction site in Sialkot, foundations being laid for a new development.",
   },
+  {
+    id: "data-waterproofing",
+    index: "05",
+    name: "Data Waterproofing Inc",
+    short: "Waterproofing",
+    description:
+      "The group's international presence, based at 2329 Delanoy Avenue, Bronx, New York. A specialist waterproofing contractor focused on building protection, durability, and long-term structural care, carrying the same standard of workmanship abroad as at home.",
+    itemsLabel: "Services",
+    items: [
+      "Roof waterproofing",
+      "Structural protection",
+      "Building envelope care",
+      "Long-term durability",
+    ],
+    accent: "green",
+    image: "/images/waterprofing.png",
+    imageAlt:
+      "Waterproofing crew applying a torch-on membrane to a foundation wall and slab on a construction site.",
+  },
 ];
 
 export const WHY_US = {
@@ -157,7 +176,7 @@ export const WHY_US = {
   heading: "Legacy of Excellence",
   paragraphs: [
     "Working with Saghir Sultan Companies means partnering with a group that has spent three decades earning trust one delivery, one fill, one lease at a time. Our name carries weight in Sialkot because we have never treated quality as negotiable.",
-    "Across four very different industries we bring the same disciplined, people-first approach, so whether you buy a bag of flour or lease an entire floor, you deal with the same standards and the same handshake.",
+    "Across five very different industries, from a Sialkot flour mill to a waterproofing contractor in New York, we bring the same disciplined, people-first approach and the same standards wherever we operate.",
   ],
   cta: { label: "Let's Get In Touch", target: "contact" },
   values: [
@@ -171,7 +190,7 @@ export const WHY_US = {
     },
     {
       title: "Multi-Sector Strength",
-      body: "Four divisions that steady one another through any cycle.",
+      body: "Five divisions that steady one another through any cycle.",
     },
     {
       title: "Community-Centric Approach",
@@ -253,6 +272,7 @@ export const FOOTER = {
         { label: "Hascol CNG & Filling", target: "companies" },
         { label: "Poultry Farms", target: "companies" },
         { label: "Real Estate", target: "companies" },
+        { label: "Data Waterproofing", target: "companies" },
       ],
     },
     {
@@ -279,9 +299,56 @@ export const IMAGES = {
     "/images/pexels-tkphotos-26625882.webp",
     "/images/pexels-ag-photography-243127230-12455093.webp",
   ],
-  whyUs: [
-    "/images/SS.png",
-    "/images/Poltryform.png",
-    "/images/Realestate.png",
-  ],
 } as const;
+
+/** Facility catalog slides for the Why Us section — auto-looping editorial spread. */
+export const WHY_US_CATALOG = [
+  {
+    src: "/images/why-us-1.jpg",
+    alt: "White and teal grain separators connected by overhead piping.",
+    title: "Grain Separation Line",
+    caption:
+      "Precision separators and teal ducting route every batch through a controlled, traceable flow.",
+    tag: "Processing",
+  },
+  {
+    src: "/images/why-us-2.jpg",
+    alt: "Teal processing cabinets suspended on an overhead rail system.",
+    title: "Overhead Rail System",
+    caption:
+      "Modular cabinets on a suspended rail — Swiss engineering built for consistency at scale.",
+    tag: "Infrastructure",
+  },
+  {
+    src: "/images/why-us-3.jpg",
+    alt: "Milling line with arched windows and teal feed pipes.",
+    title: "Milling Floor",
+    caption:
+      "A light-filled production hall where natural daylight meets spotless, monitored operations.",
+    tag: "Production",
+  },
+  {
+    src: "/images/why-us-4.jpg",
+    alt: "Centrifugal blowers and cyclone separators on the mill floor.",
+    title: "Cyclone & Airflow",
+    caption:
+      "Centrifugal blowers and green cyclones manage airflow with the reliability our flour depends on.",
+    tag: "Quality Control",
+  },
+  {
+    src: "/images/why-us-5.jpg",
+    alt: "Rows of Swiss milling cyclones inside Saghir Sultan Flour Mills.",
+    title: "Swiss Cyclone Bank",
+    caption:
+      "Rows of cyclone separators — the backbone of texture, colour, and rise in every bag we ship.",
+    tag: "Swiss Machinery",
+  },
+  {
+    src: "/images/why-us-6.jpg",
+    alt: "Central roller mill surrounded by green cyclones and blue ducting.",
+    title: "Central Roller Mill",
+    caption:
+      "The heart of the operation: roller milling surrounded by integrated separation and ducting.",
+    tag: "Core Milling",
+  },
+] as const;

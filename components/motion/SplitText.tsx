@@ -15,6 +15,15 @@ type SplitTextProps = {
   delay?: number;
   /** Re-animate every time it enters, or only once. */
   once?: boolean;
+  /** Make each word react to hover with a lift + gold color shift. */
+  interactive?: boolean;
+  /**
+   * Externally controlled reveal instead of the default scroll-into-view
+   * trigger — pass `false` to hold the text hidden and `true` to play it,
+   * e.g. gating the hero headline on the preloader finishing rather than on
+   * viewport intersection (which fires immediately, invisibly, behind it).
+   */
+  active?: boolean;
 };
 
 const container = (delay: number): Variants => ({
@@ -45,6 +54,8 @@ export function SplitText({
   by = "word",
   delay = 0,
   once = true,
+  interactive = false,
+  active,
 }: SplitTextProps) {
   const reduced = useReducedMotion();
   const parts = useMemo(
@@ -59,14 +70,18 @@ export function SplitText({
     return <Tag className={className}>{text}</Tag>;
   }
 
+  const controlledProps =
+    active === undefined
+      ? { whileInView: "visible", viewport: { once, amount: 0.6 } }
+      : { animate: active ? "visible" : "hidden" };
+
   return (
     <MotionTag
       className={className}
       aria-label={text}
       variants={container(delay)}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, amount: 0.6 }}
+      {...controlledProps}
     >
       {parts.map((part, i) => (
         <Fragment key={`${part}-${i}`}>
@@ -80,7 +95,23 @@ export function SplitText({
               marginBottom: "-0.12em",
             }}
           >
-            <motion.span variants={child} style={{ display: "inline-block" }}>
+            <motion.span
+              variants={child}
+              whileHover={
+                interactive
+                  ? {
+                      y: -8,
+                      scale: 1.06,
+                      color: "var(--color-gold)",
+                      transition: { type: "spring", stiffness: 320, damping: 14 },
+                    }
+                  : undefined
+              }
+              style={{
+                display: "inline-block",
+                cursor: interactive ? "default" : undefined,
+              }}
+            >
               {part}
             </motion.span>
           </span>

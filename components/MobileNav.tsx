@@ -52,7 +52,7 @@ export function MobileNav({
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          className="grain fixed inset-0 z-40 flex flex-col bg-espresso text-cream lg:hidden"
+          className="grain fixed inset-0 z-40 flex flex-col bg-pine text-cream lg:hidden"
           variants={overlay}
           initial="hidden"
           animate="visible"

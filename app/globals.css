@@ -13,6 +13,12 @@
   --color-stone: #d8cdbb;
   --color-espresso-80: rgba(23, 19, 15, 0.8);
 
+  /* Deep premium green — the brand's official catalogue palette. Used as the
+     primary dark surface across most sections, gold as its accent. */
+  --color-pine: #122820;
+  --color-pine-light: #1e4534;
+  --color-pine-80: rgba(18, 40, 32, 0.85);
+
   --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
 

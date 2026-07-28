@@ -107,7 +107,7 @@ export function Companies() {
     <section
       id="companies"
       ref={scope}
-      className="relative bg-cream text-espresso"
+      className="grain relative bg-pine text-cream"
       aria-label="Industries we serve"
     >
       <div
@@ -124,7 +124,7 @@ export function Companies() {
           className={`container-page relative z-[3] shrink-0 ${
             reduced
               ? "pt-[var(--spacing-section)]"
-              : "border-b border-stone/40 bg-cream pb-4 pt-2 backdrop-blur-sm lg:pointer-events-none lg:absolute lg:inset-x-0 lg:top-0 lg:border-0 lg:bg-transparent lg:pb-0 lg:pt-10 lg:backdrop-blur-none"
+              : "border-b border-cream/15 bg-pine pb-4 pt-2 backdrop-blur-sm lg:pointer-events-none lg:absolute lg:inset-x-0 lg:top-0 lg:border-0 lg:bg-transparent lg:pb-0 lg:pt-10 lg:backdrop-blur-none"
           }`}
         >
           <div className="flex items-end justify-between gap-4">
@@ -139,8 +139,8 @@ export function Companies() {
                 <span className="font-display text-xl text-gold lg:text-2xl">
                   {String(active).padStart(2, "0")}
                 </span>
-                <span className="text-espresso/30">/</span>
-                <span className="font-display text-xl text-espresso/40 lg:text-2xl">
+                <span className="text-cream/30">/</span>
+                <span className="font-display text-xl text-cream/40 lg:text-2xl">
                   {String(total).padStart(2, "0")}
                 </span>
               </div>
@@ -180,7 +180,7 @@ export function Companies() {
                   <span
                     key={c.id}
                     className={`h-1 rounded-full transition-all duration-500 ${
-                      active === i + 1 ? "w-10 bg-gold" : "w-4 bg-stone"
+                      active === i + 1 ? "w-10 bg-gold" : "w-4 bg-cream/25"
                     }`}
                   />
                 ))}
@@ -204,20 +204,20 @@ function Panel({
   total: number;
   reduced: boolean;
 }) {
-  const accentText = company.accent === "green" ? "text-forest" : "text-gold";
+  const accentText = company.accent === "green" ? "text-cream" : "text-gold";
   const accentBadge =
-    company.accent === "green" ? "bg-forest text-cream" : "bg-gold text-espresso";
+    company.accent === "green" ? "bg-cream text-pine" : "bg-gold text-espresso";
 
   return (
     <article
       data-panel
       className={`relative flex shrink-0 flex-col ${
         reduced
-          ? "w-full border-b border-stone/60 px-6 py-16 last:border-b-0 sm:px-10"
+          ? "w-full border-b border-cream/15 px-6 py-16 last:border-b-0 sm:px-10"
           : "h-full w-screen overflow-hidden px-6 pb-14 pt-3 sm:px-8 lg:h-full lg:w-screen lg:justify-center lg:overflow-visible lg:px-[clamp(2rem,7vw,7rem)] lg:pb-16 lg:pt-40 lg:flex-row lg:items-center lg:gap-14"
       }`}
     >
-      <div className="relative mb-4 aspect-[16/10] max-h-[34dvh] w-full shrink-0 overflow-hidden rounded-[2px] bg-stone/30 lg:mb-0 lg:aspect-auto lg:h-[54vh] lg:max-h-none lg:w-[46%]">
+      <div className="relative mb-4 aspect-[16/10] max-h-[34dvh] w-full shrink-0 overflow-hidden rounded-[2px] bg-pine-light/50 lg:mb-0 lg:aspect-auto lg:h-[54vh] lg:max-h-none lg:w-[46%]">
         <div data-panel-img className="absolute inset-0 h-full w-full">
           <Image
             src={company.image}
@@ -248,18 +248,18 @@ function Panel({
 
         <p
           data-panel-anim
-          className="mt-3 max-w-lg text-sm leading-relaxed text-espresso/70 lg:mt-5 lg:text-base"
+          className="mt-3 max-w-lg text-sm leading-relaxed text-cream/70 lg:mt-5 lg:text-base"
         >
           {company.description}
         </p>
 
         <div data-panel-anim className="mt-4 lg:mt-7">
-          <p className="eyebrow mb-2 text-espresso/50 lg:mb-3">{company.itemsLabel}</p>
+          <p className="eyebrow mb-2 text-cream/50 lg:mb-3">{company.itemsLabel}</p>
           <ul className="flex flex-wrap gap-1.5 lg:gap-2">
             {company.items.map((item) => (
               <li
                 key={item}
-                className="rounded-full border border-stone px-3 py-1 text-xs text-espresso/80 lg:px-3.5 lg:py-1.5 lg:text-sm"
+                className="rounded-full border border-cream/20 px-3 py-1 text-xs text-cream/80 lg:px-3.5 lg:py-1.5 lg:text-sm"
               >
                 {item}
               </li>

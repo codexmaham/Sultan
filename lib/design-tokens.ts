@@ -13,6 +13,8 @@ export const colors = {
   amber: "#E0A836", // amber highlight
   forest: "#2F4A3A", // deep forest green — agriculture accent
   stone: "#D8CDBB", // muted stone / borders
+  pine: "#122820", // deep premium green — primary dark surface (official catalogue)
+  pineLight: "#1E4534", // lighter green for gradients
 } as const;
 
 /** Modular type scale (1.25 major-third), in rem. */

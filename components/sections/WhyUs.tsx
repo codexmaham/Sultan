@@ -1,48 +1,24 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { WHY_US, IMAGES } from "@/lib/content";
+import { WHY_US, WHY_US_CATALOG } from "@/lib/content";
 import { SplitText } from "@/components/motion/SplitText";
 import { MagneticButton } from "@/components/motion/MagneticButton";
-import { useGsapContext } from "@/lib/useGsapContext";
-import { gsap } from "@/lib/gsap";
+import { CatalogLoop } from "@/components/motion/CatalogLoop";
 
 /**
- * "Why work with us" — copy plus a six-point value grid, beside a cluster of
- * images that drift at different rates for a layered-parallax depth effect
- * (desktop only; disabled on mobile and under reduced motion).
+ * "Why work with us" — copy plus a six-point value grid, beside an auto-looping
+ * facility catalog that showcases the mill's Swiss-grade infrastructure.
  */
 export function WhyUs() {
-  const scope = useGsapContext((_self, el) => {
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 768px)", () => {
-      const layers = gsap.utils.toArray<HTMLElement>("[data-parallax]", el);
-      layers.forEach((layer) => {
-        const speed = Number(layer.dataset.parallax) || 0;
-        gsap.to(layer, {
-          yPercent: speed,
-          ease: "none",
-          scrollTrigger: {
-            trigger: el,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
-      });
-    });
-  });
-
   return (
     <section
       id="why-us"
-      ref={scope}
       className="relative bg-cream py-[var(--spacing-section)]"
     >
-      <div className="container-page grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
+      <div className="container-page grid grid-cols-1 gap-14 lg:grid-cols-12 lg:items-stretch lg:gap-10">
         {/* Copy + values */}
-        <div className="lg:col-span-7">
+        <div className="flex flex-col lg:col-span-7">
           <p className="eyebrow text-gold">{WHY_US.eyebrow}</p>
           <SplitText
             as="h2"
@@ -96,46 +72,13 @@ export function WhyUs() {
           </div>
         </div>
 
-        {/* Image cluster with layered parallax */}
-        <div className="relative lg:col-span-5">
-          <div className="relative mx-auto h-[520px] w-full max-w-md md:h-[640px]">
-            <div
-              data-parallax="-14"
-              className="absolute left-0 top-6 h-56 w-40 overflow-hidden rounded-[2px] bg-stone/40 shadow-xl sm:h-72 sm:w-52"
-            >
-              <Image
-                src={IMAGES.whyUs[0]}
-                alt="A miller inspecting freshly ground flour for colour and texture."
-                fill
-                sizes="13rem"
-                className="object-cover"
-              />
-            </div>
-            <div
-              data-parallax="10"
-              className="absolute right-0 top-24 h-64 w-44 overflow-hidden rounded-[2px] bg-stone/40 shadow-xl sm:h-80 sm:w-56"
-            >
-              <Image
-                src={IMAGES.whyUs[1]}
-                alt="Well-tended poultry in a sunlit welfare-focused barn."
-                fill
-                sizes="14rem"
-                className="object-cover"
-              />
-            </div>
-            <div
-              data-parallax="-6"
-              className="absolute bottom-0 left-10 h-52 w-56 overflow-hidden rounded-[2px] bg-stone/40 shadow-xl sm:h-60 sm:w-72"
-            >
-              <Image
-                src={IMAGES.whyUs[2]}
-                alt="A modern Sultan Real Estate plaza facade at golden hour."
-                fill
-                sizes="18rem"
-                className="object-cover"
-              />
-            </div>
-          </div>
+        {/* Auto-looping facility catalog — stretches to match copy column height */}
+        <div className="relative flex flex-col lg:col-span-5 lg:sticky lg:top-28 lg:h-full">
+          <CatalogLoop
+            slides={WHY_US_CATALOG}
+            label="Mill Facility Catalog"
+            className="h-full"
+          />
         </div>
       </div>
     </section>

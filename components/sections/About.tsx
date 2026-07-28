@@ -9,19 +9,18 @@ import { gsap } from "@/lib/gsap";
 import { scrollToSection } from "@/lib/smoothScroll";
 
 /**
- * About / introduction. A split layout with an oversized serif "1989". On
- * desktop the section pins briefly while the numeral scrubs scale + opacity;
- * a stat block counts up on enter. Reduced motion → no pin, static numeral,
- * final numbers shown immediately (handled inside the child components).
+ * About / introduction — a true split panel echoing the official catalogue's
+ * "About Us" page: a deep-green column with the gold "1989" numeral, beside a
+ * cream column carrying the heading, copy, and stat block. On desktop the
+ * numeral scrubs scale + opacity as the section passes through and lingers
+ * via CSS `sticky`. Reduced motion → static numeral, final values shown
+ * immediately (handled inside the child components).
  */
 export function About() {
   const scope = useGsapContext((_self, el) => {
     const numeral = el.querySelector<HTMLElement>("[data-numeral]");
     if (!numeral) return;
 
-    // Scrub the numeral's scale + opacity as the section passes through. The
-    // column is kept in view with CSS `sticky` (below) rather than a GSAP pin,
-    // which keeps it inside the grid flow and never detaches its position.
     gsap.fromTo(
       numeral,
       { scale: 0.9, opacity: 0.55 },
@@ -40,35 +39,31 @@ export function About() {
   });
 
   return (
-    <section
-      id="about"
-      ref={scope}
-      className="relative bg-cream py-[var(--spacing-section)]"
-    >
-      <div className="container-page grid grid-cols-1 items-start gap-12 md:grid-cols-12 md:gap-8">
-        {/* Numeral column — sticky so it lingers briefly while you scroll past */}
-        <div
-          data-numeral-col
-          className="md:sticky md:top-28 md:col-span-5 md:self-start"
-        >
-          <p className="eyebrow text-gold">{ABOUT.eyebrow}</p>
-          <div
-            data-numeral
-            className="mt-4 origin-left font-display text-[clamp(6rem,18vw,15rem)] font-medium leading-[0.8] tracking-tighter text-espresso"
-          >
-            {ABOUT.year}
+    <section id="about" ref={scope} className="relative bg-cream">
+      <div className="grid grid-cols-1 md:grid-cols-12">
+        {/* Green column — numeral, sticky so it lingers while you scroll past */}
+        <div className="grain relative bg-pine px-8 py-16 sm:px-12 md:col-span-5 md:px-12 md:py-24 lg:px-16">
+          <div className="md:sticky md:top-28">
+            <p className="eyebrow text-gold">{ABOUT.eyebrow}</p>
+            <div
+              data-numeral
+              className="mt-4 origin-left font-display text-[clamp(6rem,15vw,11rem)] font-medium leading-[0.8] tracking-tighter text-gold"
+            >
+              {ABOUT.year}
+            </div>
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-cream/60">
+              A legacy in every grain, from one mill in Sialkot to a group of
+              five.
+            </p>
           </div>
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-espresso/60">
-            A legacy in every grain, from one mill in Sialkot to a group of four.
-          </p>
         </div>
 
-        {/* Copy column */}
-        <div className="md:col-span-7 md:pt-6">
+        {/* Cream column — copy */}
+        <div className="bg-cream px-8 py-16 sm:px-12 md:col-span-7 md:px-12 md:py-24 lg:px-16 lg:pl-20">
           <SplitText
             as="h2"
             text={ABOUT.heading}
-            className="max-w-xl font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium leading-[1.02] tracking-tight text-espresso"
+            className="max-w-xl font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium leading-[1.02] tracking-tight text-pine"
           />
 
           <div className="mt-8 max-w-xl space-y-5">
@@ -100,7 +95,7 @@ export function About() {
               <div key={s.label}>
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
-                  <span className="font-display text-[clamp(2.5rem,6vw,4rem)] font-medium leading-none text-espresso">
+                  <span className="font-display text-[clamp(2.5rem,6vw,4rem)] font-medium leading-none text-pine">
                     <StatCounter
                       value={s.value}
                       suffix={s.suffix}
