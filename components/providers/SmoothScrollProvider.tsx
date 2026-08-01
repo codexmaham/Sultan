@@ -1,28 +1,69 @@
 "use client";
 
 import { useLayoutEffect, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { scrollToSection, scrollToTop, setLenis } from "@/lib/smoothScroll";
+import {
+  resolvePendingScrollTarget,
+  scrollToTop,
+  setAppRouter,
+  setLenis,
+  tryScrollToTarget,
+} from "@/lib/smoothScroll";
+import { usePreloaderDone } from "@/lib/usePreloaderDone";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-/** Reset Lenis + native scroll on every route change; honour home-page hashes. */
-function RouteScrollReset() {
+function RouterRegistration() {
+  const router = useRouter();
+
+  useEffect(() => {
+    setAppRouter(router);
+    return () => setAppRouter(null);
+  }, [router]);
+
+  return null;
+}
+
+/**
+ * Reset scroll on sub-pages; on the homepage honour pending section targets
+ * after the preloader finishes and the section DOM is ready.
+ */
+function RouteScrollManager() {
   const pathname = usePathname();
+  const preloaderDone = usePreloaderDone();
 
-  useIsomorphicLayoutEffect(() => {
-    scrollToTop(true);
-    window.scrollTo(0, 0);
-
-    const hash = window.location.hash.slice(1);
-    if (hash && pathname === "/") {
-      requestAnimationFrame(() => scrollToSection(hash));
+  useEffect(() => {
+    if (pathname !== "/") {
+      scrollToTop(true);
+      window.scrollTo(0, 0);
+      return;
     }
-  }, [pathname]);
+
+    const target = resolvePendingScrollTarget();
+    if (!target) {
+      scrollToTop(true);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    if (!preloaderDone) return;
+
+    let attempts = 0;
+    let raf = 0;
+
+    const tick = () => {
+      if (tryScrollToTarget(target)) return;
+      if (++attempts >= 40) return;
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [pathname, preloaderDone]);
 
   return null;
 }
@@ -105,7 +146,8 @@ export function SmoothScrollProvider({
 
   return (
     <>
-      <RouteScrollReset />
+      <RouterRegistration />
+      <RouteScrollManager />
       {children}
     </>
   );
