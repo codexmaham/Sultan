@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ScrollTrigger } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -16,26 +16,28 @@ const FAILSAFE_MS = 9500;
  * Full-screen preloader for the Flour Mills detail page: a grain of wheat
  * morphing into flour, playing once before the page underneath is revealed.
  * Skippable (click anywhere, Escape, or the Skip button) and backed by a hard
- * failsafe timer so it can never outlast the video or get stuck — the timer
- * logic here is deliberately simple (no "already started" ref guards), since
- * such a guard is what caused the homepage preloader to lock scroll earlier.
+ * failsafe timer so it can never outlast the video or get stuck.
  * Entirely skipped under `prefers-reduced-motion`.
  */
 export function MillIntroReel() {
   const reduced = useReducedMotion();
   const [show, setShow] = useState(true);
+  const finishedRef = useRef(false);
+  const failsafeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const finish = () => {
+  const finish = useCallback(() => {
+    if (finishedRef.current) return;
+    finishedRef.current = true;
+
+    if (failsafeRef.current) {
+      clearTimeout(failsafeRef.current);
+      failsafeRef.current = null;
+    }
+
     scrollToTop(true);
     window.scrollTo(0, 0);
     setShow(false);
     requestAnimationFrame(() => ScrollTrigger.refresh());
-  };
-
-  // Ensure we start at the top — homepage scroll position can carry over via Lenis.
-  useEffect(() => {
-    scrollToTop(true);
-    window.scrollTo(0, 0);
   }, []);
 
   // Lock scroll while the reel plays.
@@ -53,9 +55,11 @@ export function MillIntroReel() {
   // Hard failsafe, independent of the video's own `ended` event.
   useEffect(() => {
     if (reduced) return;
-    const t = setTimeout(finish, FAILSAFE_MS);
-    return () => clearTimeout(t);
-  }, [reduced]);
+    failsafeRef.current = setTimeout(finish, FAILSAFE_MS);
+    return () => {
+      if (failsafeRef.current) clearTimeout(failsafeRef.current);
+    };
+  }, [reduced, finish]);
 
   // Escape key also skips.
   useEffect(() => {
@@ -63,7 +67,7 @@ export function MillIntroReel() {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && finish();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [reduced, show]);
+  }, [reduced, show, finish]);
 
   if (reduced) return null;
 
@@ -80,7 +84,7 @@ export function MillIntroReel() {
           onClick={finish}
         >
           <video
-            className="h-full w-full object-contain sm:object-cover"
+            className="h-full w-full object-cover"
             src="/images/mill-intro.mp4"
             poster="/images/mill-intro-poster.jpg"
             autoPlay

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
@@ -35,22 +35,31 @@ function RouterRegistration() {
 function RouteScrollManager() {
   const pathname = usePathname();
   const preloaderDone = usePreloaderDone();
+  const handledPathRef = useRef<string | null>(null);
 
+  // Only reset scroll when the route changes — not when preloaderDone flips.
   useEffect(() => {
+    if (handledPathRef.current === pathname) return;
+    handledPathRef.current = pathname;
+
     if (pathname !== "/") {
       scrollToTop(true);
       window.scrollTo(0, 0);
       return;
     }
 
-    const target = resolvePendingScrollTarget();
-    if (!target) {
+    const hash = window.location.hash.slice(1);
+    if (!hash) {
       scrollToTop(true);
       window.scrollTo(0, 0);
-      return;
     }
+  }, [pathname]);
 
-    if (!preloaderDone) return;
+  useEffect(() => {
+    if (pathname !== "/" || !preloaderDone) return;
+
+    const target = resolvePendingScrollTarget();
+    if (!target) return;
 
     let attempts = 0;
     let raf = 0;
