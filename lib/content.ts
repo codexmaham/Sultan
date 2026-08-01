@@ -304,9 +304,30 @@ export function getCompanyHref(id: string): string {
 export const WHY_US = {
   eyebrow: "Why work with us",
   heading: "Legacy of Excellence",
+  subheading:
+    "Built to international benchmarks — Swiss-grade technology, food-safe production, and the same standard of care from Sialkot to New York.",
   paragraphs: [
     "Working with Saghir Sultan Companies means partnering with a group that has spent three decades earning trust one delivery, one fill, one lease at a time. Our name carries weight in Sialkot because we have never treated quality as negotiable.",
     "Across five very different industries, from a Sialkot flour mill to a waterproofing contractor in New York, we bring the same disciplined, people-first approach and the same standards wherever we operate.",
+  ],
+  standardsEyebrow: "International standards",
+  standards: [
+    {
+      title: "Swiss Bühler Technology",
+      body: "Precision roller milling and separation systems engineered to global industry benchmarks.",
+    },
+    {
+      title: "Food-Grade Quality Control",
+      body: "Batch consistency, traceable processing, and standards that protect every product we ship.",
+    },
+    {
+      title: "Cross-Border Operations",
+      body: "A Sialkot heritage with an international footprint — one group, one standard, two continents.",
+    },
+    {
+      title: "Ethical & Sustainable Practice",
+      body: "Responsible sourcing, welfare-focused production, and long-term stewardship across every division.",
+    },
   ],
   cta: { label: "Let's Get In Touch", target: "contact" },
   values: [
