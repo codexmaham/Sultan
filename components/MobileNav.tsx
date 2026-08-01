@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/lib/content";
 import { scrollToSection } from "@/lib/smoothScroll";
+import { toTelHref } from "@/lib/phone";
 
 const overlay: Variants = {
   hidden: { clipPath: "inset(0% 0% 100% 0%)" },
@@ -88,7 +89,7 @@ export function MobileNav({
               {SITE.phones.map((p) => (
                 <a
                   key={p}
-                  href={`tel:${p.replace(/[^\d]/g, "")}`}
+                  href={toTelHref(p)}
                   className="link-underline text-lg"
                 >
                   {p}

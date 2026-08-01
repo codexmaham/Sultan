@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { FOOTER, SITE } from "@/lib/content";
 import { scrollToSection } from "@/lib/smoothScroll";
+import { toTelHref } from "@/lib/phone";
 
 /**
  * Footer. Reveals on enter, mirrors the current site's structure (Company /
@@ -37,7 +39,7 @@ export function Footer() {
                   {SITE.phones.map((p) => (
                     <a
                       key={p}
-                      href={`tel:${p.replace(/[^\d]/g, "")}`}
+                      href={toTelHref(p)}
                       className="link-underline text-espresso"
                     >
                       {p}
@@ -64,12 +66,21 @@ export function Footer() {
                 <ul className="mt-4 space-y-2.5">
                   {col.links.map((link) => (
                     <li key={link.label}>
-                      <button
-                        onClick={() => scrollToSection(link.target)}
-                        className="link-underline text-sm text-espresso/80 hover:text-espresso"
-                      >
-                        {link.label}
-                      </button>
+                      {"href" in link ? (
+                        <Link
+                          href={link.href}
+                          className="link-underline text-sm text-espresso/80 hover:text-espresso"
+                        >
+                          {link.label}
+                        </Link>
+                      ) : (
+                        <button
+                          onClick={() => scrollToSection(link.target)}
+                          className="link-underline text-sm text-espresso/80 hover:text-espresso"
+                        >
+                          {link.label}
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>

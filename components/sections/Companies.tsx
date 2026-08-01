@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { COMPANIES, INDUSTRIES, type Company } from "@/lib/content";
+import Link from "next/link";
+import { COMPANIES, getCompanyHref, INDUSTRIES, type Company } from "@/lib/content";
 import { useGsapContext } from "@/lib/useGsapContext";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { scrollToSection } from "@/lib/smoothScroll";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /**
@@ -217,6 +217,15 @@ function Panel({
           : "h-full w-screen overflow-hidden px-6 pb-14 pt-3 sm:px-8 lg:h-full lg:w-screen lg:justify-center lg:overflow-visible lg:px-[clamp(2rem,7vw,7rem)] lg:pb-16 lg:pt-40 lg:flex-row lg:items-center lg:gap-14"
       }`}
     >
+      {/* Full-card click target — invisible, hidden from assistive tech since
+          the visible "Learn More" link below is the real, announced control. */}
+      <Link
+        href={getCompanyHref(company.id)}
+        aria-hidden="true"
+        tabIndex={-1}
+        className="absolute inset-0 z-[1]"
+      />
+
       <div className="relative mb-4 aspect-[16/10] max-h-[34dvh] w-full shrink-0 overflow-hidden rounded-[2px] bg-pine-light/50 lg:mb-0 lg:aspect-auto lg:h-[54vh] lg:max-h-none lg:w-[46%]">
         <div data-panel-img className="absolute inset-0 h-full w-full">
           <Image
@@ -230,7 +239,7 @@ function Panel({
         <div className="absolute inset-0 bg-gradient-to-t from-espresso/25 to-transparent" />
       </div>
 
-      <div className="min-h-0 flex-1 lg:w-[46%] lg:flex-none">
+      <div className="relative z-[2] min-h-0 flex-1 lg:w-[46%] lg:flex-none">
         <div data-panel-anim className="mb-3 flex items-center gap-3 lg:mb-5">
           <span
             className={`inline-flex h-7 items-center rounded-full px-3 text-[0.7rem] font-semibold uppercase tracking-[0.15em] ${accentBadge}`}
@@ -267,14 +276,14 @@ function Panel({
           </ul>
         </div>
 
-        <button
+        <Link
           data-panel-anim
-          onClick={() => scrollToSection("contact")}
+          href={getCompanyHref(company.id)}
           className={`link-underline mt-4 inline-flex items-center gap-2 text-sm font-medium lg:mt-8 ${accentText}`}
         >
           Learn More
           <span aria-hidden="true">→</span>
-        </button>
+        </Link>
       </div>
     </article>
   );

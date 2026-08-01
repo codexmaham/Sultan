@@ -5,6 +5,7 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { Header } from "@/components/Header";
 import { Cursor } from "@/components/motion/Cursor";
 import { Preloader } from "@/components/Preloader";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { SITE } from "@/lib/content";
 
 const outfit = Outfit({
@@ -63,6 +64,7 @@ export default function RootLayout({
           <Header />
           <main id="main">{children}</main>
         </SmoothScrollProvider>
+        <WhatsAppButton />
       </body>
     </html>
   );

@@ -3,6 +3,7 @@
 import { CTA as CTA_CONTENT, SITE } from "@/lib/content";
 import { SplitText } from "@/components/motion/SplitText";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { toTelHref } from "@/lib/phone";
 
 /**
  * The one warm "golden" band on an otherwise light, cream site — the "Let's talk
@@ -46,17 +47,12 @@ export function CTA() {
 
           <div className="flex flex-col gap-1.5">
             <span className="eyebrow text-espresso/55">Call us directly</span>
-            <div className="flex flex-col gap-1 sm:flex-row sm:gap-6">
-              {SITE.phones.map((p) => (
-                <a
-                  key={p}
-                  href={`tel:${p.replace(/[^\d]/g, "")}`}
-                  className="link-underline font-display text-2xl tracking-tight text-espresso sm:text-3xl"
-                >
-                  {p}
-                </a>
-              ))}
-            </div>
+            <a
+              href={toTelHref(SITE.phones[0])}
+              className="link-underline font-display text-2xl tracking-tight text-espresso sm:text-3xl"
+            >
+              {SITE.phones[0]}
+            </a>
           </div>
         </div>
       </div>
