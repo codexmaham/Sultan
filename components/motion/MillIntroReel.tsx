@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ScrollTrigger } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/useReducedMotion";
-import { getLenis } from "@/lib/smoothScroll";
+import { getLenis, scrollToTop } from "@/lib/smoothScroll";
 
 /** Playback speed for the reel — a touch faster than real-time. */
 const PLAYBACK_RATE = 1.4;
@@ -24,7 +25,18 @@ export function MillIntroReel() {
   const reduced = useReducedMotion();
   const [show, setShow] = useState(true);
 
-  const finish = () => setShow(false);
+  const finish = () => {
+    scrollToTop(true);
+    window.scrollTo(0, 0);
+    setShow(false);
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  };
+
+  // Ensure we start at the top — homepage scroll position can carry over via Lenis.
+  useEffect(() => {
+    scrollToTop(true);
+    window.scrollTo(0, 0);
+  }, []);
 
   // Lock scroll while the reel plays.
   useEffect(() => {

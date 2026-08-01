@@ -1,13 +1,31 @@
 "use client";
 
 import { useLayoutEffect, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { setLenis } from "@/lib/smoothScroll";
+import { scrollToSection, scrollToTop, setLenis } from "@/lib/smoothScroll";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+/** Reset Lenis + native scroll on every route change; honour home-page hashes. */
+function RouteScrollReset() {
+  const pathname = usePathname();
+
+  useIsomorphicLayoutEffect(() => {
+    scrollToTop(true);
+    window.scrollTo(0, 0);
+
+    const hash = window.location.hash.slice(1);
+    if (hash && pathname === "/") {
+      requestAnimationFrame(() => scrollToSection(hash));
+    }
+  }, [pathname]);
+
+  return null;
+}
 
 /**
  * Global smooth scrolling.
@@ -24,6 +42,10 @@ export function SmoothScrollProvider({
   const reducedMotion = useReducedMotion();
 
   useIsomorphicLayoutEffect(() => {
+    if (typeof window !== "undefined") {
+      history.scrollRestoration = "manual";
+    }
+
     if (reducedMotion) {
       setLenis(null);
       return;
@@ -81,5 +103,10 @@ export function SmoothScrollProvider({
     };
   }, [reducedMotion]);
 
-  return <>{children}</>;
+  return (
+    <>
+      <RouteScrollReset />
+      {children}
+    </>
+  );
 }
