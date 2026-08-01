@@ -80,7 +80,7 @@ export function MillIntroReel() {
           onClick={finish}
         >
           <video
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain sm:object-cover"
             src="/images/mill-intro.mp4"
             poster="/images/mill-intro-poster.jpg"
             autoPlay
