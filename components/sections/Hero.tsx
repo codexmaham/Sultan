@@ -135,7 +135,7 @@ export function Hero() {
         </motion.div>
 
         {/* Mill building — full viewport width, flush below CTAs */}
-        <div className="relative z-[1] -mt-20 w-screen max-w-none -translate-x-1/2 left-1/2 max-lg:mb-0 lg:-mt-36">
+        <div className="relative z-[1] mt-3 w-screen max-w-none -translate-x-1/2 left-1/2 max-lg:mb-0 lg:mt-6">
           <div data-hero-image className="relative w-full leading-none">
             <Image
               src={HERO.image}
