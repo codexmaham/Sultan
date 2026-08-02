@@ -110,7 +110,7 @@ export function ToggleButton({
       </span>
       <span
         aria-hidden="true"
-        className="relative z-10 ml-4 flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+        className="relative z-10 ml-4 flex h-9 w-9 shrink-0 items-center justify-center rounded-full max-md:ml-2 max-md:h-8 max-md:w-8"
       >
         <svg
           viewBox="0 0 24 24"

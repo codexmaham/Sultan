@@ -42,9 +42,9 @@ export function Hero() {
       className="relative overflow-hidden bg-[linear-gradient(180deg,#F5E9D3_0%,#ECD3A0_60%,#E6C888_100%)]"
       aria-label="Introduction"
     >
-      {/* Wheat-field background — content-height on mobile; taller on desktop */}
+      {/* Wheat-field background — spans full hero section (not just viewport) */}
       <div
-        className="pointer-events-none absolute inset-0 -z-0 lg:inset-x-0 lg:top-0 lg:h-[120vh] lg:bottom-auto"
+        className="pointer-events-none absolute inset-0 -z-0 left-1/2 w-screen max-w-none -translate-x-1/2"
         style={{
           WebkitMaskImage:
             "linear-gradient(to bottom, transparent 0%, #000 14%, #000 100%)",
@@ -64,7 +64,7 @@ export function Hero() {
       </div>
       {/* Light residual wash so the gold eyebrow stays legible right under
           the header, even where the masked photo has already faded in. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-24 bg-gradient-to-b from-cream/50 to-transparent" />
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-0 h-24 w-screen max-w-none -translate-x-1/2 bg-gradient-to-b from-cream/50 to-transparent" />
 
       {/* Centered intro copy */}
       <div className="container-page relative z-10 pt-3 text-center lg:pt-12">
@@ -110,15 +110,15 @@ export function Hero() {
           initial={{ opacity: 0, y: 14 }}
           animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
           transition={{ duration: 0.8, delay: reduced ? 0 : 0.75 }}
-          className="mt-4 mb-4 flex justify-center"
+          className="mt-4 mb-4 flex justify-center max-md:w-full max-md:px-4"
         >
-          <div className="inline-flex overflow-hidden rounded-full shadow-[0_2px_16px_rgba(23,19,15,0.08)]">
+          <div className="inline-flex overflow-hidden rounded-full shadow-[0_2px_16px_rgba(23,19,15,0.08)] max-md:flex max-md:w-full max-md:max-w-sm max-md:flex-col max-md:gap-2.5 max-md:overflow-visible max-md:rounded-none max-md:shadow-none">
             <ToggleButton
               target={HERO.primaryCta.target}
               variant="solid"
               hoverFill="white"
               circleColor="#F3E6C8"
-              className="rounded-none rounded-l-full border-r border-espresso/10 !bg-[#F3E6C8] hover:!bg-[#F3E6C8]"
+              className="rounded-none rounded-l-full border-r border-espresso/10 !bg-[#F3E6C8] hover:!bg-[#F3E6C8] max-md:w-full max-md:justify-center max-md:rounded-full max-md:border max-md:border-transparent max-md:!h-11 max-md:!pl-5 max-md:!text-xs"
             >
               {HERO.primaryCta.label}
             </ToggleButton>
@@ -127,7 +127,7 @@ export function Hero() {
               variant="outline"
               circleColor="#F3E6C8"
               disableHover
-              className="rounded-none rounded-r-full border-l-0"
+              className="rounded-none rounded-r-full border-l-0 max-md:w-full max-md:justify-center max-md:rounded-full max-md:border max-md:border-stone max-md:!h-11 max-md:!pl-5 max-md:!text-xs"
             >
               {HERO.secondaryCta.label}
             </ToggleButton>
@@ -135,7 +135,7 @@ export function Hero() {
         </motion.div>
 
         {/* Mill building — full viewport width, flush below CTAs */}
-        <div className="relative z-[1] -mt-6 w-screen max-w-none -translate-x-1/2 left-1/2 max-lg:mb-0 lg:-mt-12">
+        <div className="relative z-[1] -mt-20 w-screen max-w-none -translate-x-1/2 left-1/2 max-lg:mb-0 lg:-mt-36">
           <div data-hero-image className="relative w-full leading-none">
             <Image
               src={HERO.image}

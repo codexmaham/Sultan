@@ -60,26 +60,6 @@ export function Companies() {
       });
 
       panels.forEach((panel) => {
-        const img = panel.querySelector<HTMLElement>("[data-panel-img]");
-        if (img && useParallax) {
-          gsap.fromTo(
-            img,
-            { scale: 1.18, xPercent: -6 },
-            {
-              scale: 1,
-              xPercent: 6,
-              ease: "none",
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: scrollTween,
-                start: "left right",
-                end: "right left",
-                scrub: true,
-              },
-            },
-          );
-        }
-
         const bits = panel.querySelectorAll<HTMLElement>("[data-panel-anim]");
         gsap.from(bits, {
           y: 44,
@@ -226,17 +206,17 @@ function Panel({
         className="absolute inset-0 z-[1]"
       />
 
-      <div className="relative mb-4 aspect-[16/10] max-h-[34dvh] w-full shrink-0 overflow-hidden rounded-[2px] bg-pine-light/50 lg:mb-0 lg:aspect-auto lg:h-[54vh] lg:max-h-none lg:w-[46%]">
-        <div data-panel-img className="absolute inset-0 h-full w-full">
+      <div className="relative mb-4 w-full shrink-0 lg:mb-0 lg:w-[46%] lg:self-center">
+        <div data-panel-img className="relative w-full">
           <Image
             src={company.image}
             alt={company.imageAlt}
-            fill
+            width={1920}
+            height={1200}
             sizes="(max-width: 1024px) 100vw, 46vw"
-            className="object-cover"
+            className="mx-auto h-auto w-full max-h-[50dvh] object-contain object-center lg:max-h-[65vh]"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-espresso/25 to-transparent" />
       </div>
 
       <div className="relative z-[2] min-h-0 flex-1 lg:w-[46%] lg:flex-none">
