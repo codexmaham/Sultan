@@ -140,8 +140,8 @@ export function Hero() {
             <Image
               src={HERO.image}
               alt={HERO.imageAlt}
-              width={4320}
-              height={1989}
+              width={1536}
+              height={1024}
               sizes="100vw"
               className="block h-auto w-full"
               priority

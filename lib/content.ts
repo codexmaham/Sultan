@@ -43,10 +43,10 @@ export const HERO = {
     { icon: "shield", label: "Trusted\nQuality" },
     { icon: "people", label: "Serving Since\n1989" },
   ],
-  image: "/images/SS.png",
+  image: "/images/SS.webp",
   imageAlt:
     "The Saghir Sultan Flour Mills building, a red-brick mill with the company name on its central tower.",
-  background: "/images/backgroundimage.png",
+  background: "/images/backgroundimage.webp",
 };
 
 export const ABOUT = {
@@ -100,7 +100,7 @@ export const COMPANIES: Company[] = [
     itemsLabel: "Products",
     items: ["Atta", "Maida", "Suji", "Choker", "Fine Atta", "Super Fine Atta", "Pizza Flour"],
     accent: "gold",
-    image: "/images/SS.png",
+    image: "/images/SS.webp",
     imageAlt:
       "The Saghir Sultan Flour Mills building, a red-brick mill with the company name on its central tower.",
     detail: {
@@ -137,7 +137,7 @@ export const COMPANIES: Company[] = [
     itemsLabel: "Services",
     items: ["Petrol", "High-Speed Diesel", "Lubricants", "CNG"],
     accent: "gold",
-    image: "/images/Petrolpump.png",
+    image: "/images/Petrolpump.webp",
     imageAlt:
       "Sultan CNG and Filling Station forecourt in partnership with Hascol Petroleum, fuel pumps under a red canopy.",
     detail: {
@@ -179,7 +179,7 @@ export const COMPANIES: Company[] = [
       "Sustainability",
     ],
     accent: "green",
-    image: "/images/Poltryform.png",
+    image: "/images/Poltryform.webp",
     imageAlt:
       "Rows of free-roaming poultry chicks in a covered, well-ventilated barn at Sultan Poultry Farms.",
     detail: {
@@ -222,7 +222,7 @@ export const COMPANIES: Company[] = [
       "Retail & office rentals",
     ],
     accent: "gold",
-    image: "/images/Realestate.jpg",
+    image: "/images/Realestate.webp",
     imageAlt:
       "A finished Sultan Real Estate residential building complex in Sialkot.",
     detail: {
@@ -264,7 +264,7 @@ export const COMPANIES: Company[] = [
       "Long-term durability",
     ],
     accent: "green",
-    image: "/images/waterprofing.png",
+    image: "/images/waterprofing.webp",
     imageAlt:
       "Waterproofing crew applying a torch-on membrane to a foundation wall and slab on a construction site.",
     detail: {
@@ -443,10 +443,10 @@ export const FOOTER = {
  */
 export const IMAGES = {
   marquee: [
-    "/images/SS.png",
-    "/images/Petrolpump.png",
-    "/images/Poltryform.png",
-    "/images/Realestate.jpg",
+    "/images/SS.webp",
+    "/images/Petrolpump.webp",
+    "/images/Poltryform.webp",
+    "/images/Realestate.webp",
     "/images/pexels-tkphotos-26625882.webp",
     "/images/pexels-ag-photography-243127230-12455093.webp",
   ],
@@ -455,7 +455,7 @@ export const IMAGES = {
 /** Facility catalog for the Flour Mills detail page — Bühler machinery + mill infrastructure. */
 export const MILL_FACILITY_CATALOG = [
   {
-    src: "/images/buhler-1.jpg",
+    src: "/images/buhler-1.webp",
     alt: "Bühler roller mill with grain feed hopper and analogue gauges on the milling floor.",
     title: "Bühler Roller Mill",
     caption:
@@ -463,7 +463,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Bühler Machinery",
   },
   {
-    src: "/images/buhler-2.jpg",
+    src: "/images/buhler-2.webp",
     alt: "A row of mint-green Bühler roller mills connected by overhead piping in the mill hall.",
     title: "Bühler Milling Line",
     caption:
@@ -471,7 +471,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Bühler Machinery",
   },
   {
-    src: "/images/buhler-3.jpg",
+    src: "/images/buhler-3.webp",
     alt: "Close view of a Bühler mill with digital controls, pressure gauge, and grain in the inspection window.",
     title: "Precision Controls",
     caption:
@@ -479,7 +479,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Bühler Machinery",
   },
   {
-    src: "/images/why-us-5.jpg",
+    src: "/images/why-us-5.webp",
     alt: "Rows of Swiss milling cyclones inside Saghir Sultan Flour Mills.",
     title: "Swiss Cyclone Bank",
     caption:
@@ -487,7 +487,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Swiss Machinery",
   },
   {
-    src: "/images/why-us-6.jpg",
+    src: "/images/why-us-6.webp",
     alt: "Central roller mill surrounded by green cyclones and blue ducting.",
     title: "Central Roller Mill",
     caption:
@@ -495,7 +495,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Core Milling",
   },
   {
-    src: "/images/why-us-1.jpg",
+    src: "/images/why-us-1.webp",
     alt: "White and teal grain separators connected by overhead piping.",
     title: "Grain Separation Line",
     caption:
@@ -503,7 +503,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Processing",
   },
   {
-    src: "/images/why-us-2.jpg",
+    src: "/images/why-us-2.webp",
     alt: "Teal processing cabinets suspended on an overhead rail system.",
     title: "Overhead Rail System",
     caption:
@@ -511,7 +511,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Infrastructure",
   },
   {
-    src: "/images/why-us-3.jpg",
+    src: "/images/why-us-3.webp",
     alt: "Milling line with arched windows and teal feed pipes.",
     title: "Milling Floor",
     caption:
@@ -519,7 +519,7 @@ export const MILL_FACILITY_CATALOG = [
     tag: "Production",
   },
   {
-    src: "/images/why-us-4.jpg",
+    src: "/images/why-us-4.webp",
     alt: "Centrifugal blowers and cyclone separators on the mill floor.",
     title: "Cyclone & Airflow",
     caption:
