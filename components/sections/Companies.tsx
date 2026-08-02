@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { COMPANIES, getCompanyHref, INDUSTRIES, type Company } from "@/lib/content";
@@ -16,6 +16,7 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 export function Companies() {
   const reduced = useReducedMotion();
   const [active, setActive] = useState(1);
+  const activeRef = useRef(1);
   const total = COMPANIES.length;
 
   const scope = useGsapContext((_self, el) => {
@@ -26,9 +27,9 @@ export function Companies() {
     const mm = gsap.matchMedia();
     const panels = gsap.utils.toArray<HTMLElement>("[data-panel]", el);
 
-    const bindHorizontal = (useParallax: boolean) => {
+    const bindHorizontal = (widePanelStart: boolean) => {
       const distance = () =>
-        Math.max(0, (panels.length - 1) * window.innerWidth);
+        Math.max(0, track.scrollWidth - window.innerWidth);
 
       const scrollTween = gsap.to(track, {
         x: () => -distance(),
@@ -38,45 +39,53 @@ export function Companies() {
           pin: true,
           pinSpacing: true,
           anticipatePin: 1,
+          fastScrollEnd: true,
           start: "top top",
           end: () => "+=" + (distance() || 1),
-          scrub: true,
+          scrub: 0.6,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const idx = Math.min(
               total,
               Math.max(1, Math.round(self.progress * (total - 1)) + 1),
             );
+            if (idx === activeRef.current) return;
+            activeRef.current = idx;
             setActive(idx);
-
-            panels.forEach((panel, i) => {
-              const bits = panel.querySelectorAll<HTMLElement>("[data-panel-anim]");
-              if (i + 1 <= idx) {
-                gsap.set(bits, { opacity: 1, y: 0, clearProps: "transform" });
-              }
-            });
           },
         },
       });
 
-      panels.forEach((panel) => {
+      const panelTriggers: ScrollTrigger[] = [];
+
+      panels.forEach((panel, i) => {
         const bits = panel.querySelectorAll<HTMLElement>("[data-panel-anim]");
-        gsap.from(bits, {
-          y: 44,
-          opacity: 0,
-          duration: 0.7,
-          stagger: 0.08,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: panel,
-            containerAnimation: scrollTween,
-            start: useParallax ? "left 70%" : "left 92%",
-            toggleActions: "play none none none",
+        gsap.set(bits, i === 0 ? { opacity: 1, y: 0 } : { opacity: 0, y: 44 });
+
+        const trigger = ScrollTrigger.create({
+          trigger: panel,
+          containerAnimation: scrollTween,
+          start: widePanelStart ? "left 70%" : "left 92%",
+          once: true,
+          onEnter: () => {
+            gsap.to(bits, {
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              stagger: 0.08,
+              ease: "power3.out",
+              overwrite: "auto",
+            });
           },
         });
+        panelTriggers.push(trigger);
       });
 
-      ScrollTrigger.refresh();
+      return () => {
+        panelTriggers.forEach((trigger) => trigger.kill());
+        scrollTween.scrollTrigger?.kill();
+        scrollTween.kill();
+      };
     };
 
     mm.add("(min-width: 1024px)", () => bindHorizontal(true));
@@ -104,7 +113,7 @@ export function Companies() {
           className={`container-page relative z-[3] shrink-0 ${
             reduced
               ? "pt-[var(--spacing-section)]"
-              : "border-b border-cream/15 bg-pine pb-4 pt-2 backdrop-blur-sm lg:pointer-events-none lg:absolute lg:inset-x-0 lg:top-0 lg:border-0 lg:bg-transparent lg:pb-0 lg:pt-10 lg:backdrop-blur-none"
+              : "mt-2 border-b border-cream/15 bg-pine pb-4 pt-4 backdrop-blur-sm lg:pointer-events-none lg:absolute lg:inset-x-0 lg:top-3 lg:mt-0 lg:border-0 lg:bg-transparent lg:pb-0 lg:pt-12 lg:backdrop-blur-none"
           }`}
         >
           <div className="flex items-end justify-between gap-4">
@@ -194,7 +203,7 @@ function Panel({
       className={`relative flex shrink-0 flex-col ${
         reduced
           ? "w-full border-b border-cream/15 px-6 py-16 last:border-b-0 sm:px-10"
-          : "h-full w-screen overflow-hidden px-6 pb-14 pt-3 sm:px-8 lg:h-full lg:w-screen lg:justify-center lg:overflow-visible lg:px-[clamp(2rem,7vw,7rem)] lg:pb-16 lg:pt-40 lg:flex-row lg:items-center lg:gap-14"
+          : "h-full min-h-0 w-screen overflow-hidden px-6 pb-12 pt-2 sm:px-8 lg:h-full lg:w-screen lg:justify-center lg:overflow-visible lg:px-[clamp(2rem,7vw,7rem)] lg:pb-16 lg:pt-40 lg:flex-row lg:items-center lg:gap-14"
       }`}
     >
       {/* Full-card click target — invisible, hidden from assistive tech since
@@ -206,7 +215,7 @@ function Panel({
         className="absolute inset-0 z-[1]"
       />
 
-      <div className="relative mb-4 w-full shrink-0 lg:mb-0 lg:w-[46%] lg:self-center">
+      <div className="relative mb-3 w-full shrink-0 lg:mb-0 lg:w-[46%] lg:self-center">
         <div data-panel-img className="relative w-full">
           <Image
             src={company.image}
@@ -214,12 +223,12 @@ function Panel({
             width={1920}
             height={1200}
             sizes="(max-width: 1024px) 100vw, 46vw"
-            className="mx-auto h-auto w-full max-h-[50dvh] object-contain object-center lg:max-h-[65vh]"
+            className="mx-auto h-auto w-full max-h-[34dvh] object-contain object-center sm:max-h-[38dvh] lg:max-h-[58vh]"
           />
         </div>
       </div>
 
-      <div className="relative z-[2] min-h-0 flex-1 lg:w-[46%] lg:flex-none">
+      <div className="relative z-[2] min-h-0 flex-1 overflow-y-auto lg:overflow-visible lg:w-[46%] lg:flex-none">
         <div data-panel-anim className="mb-3 flex items-center gap-3 lg:mb-5">
           <span
             className={`inline-flex h-7 items-center rounded-full px-3 text-[0.7rem] font-semibold uppercase tracking-[0.15em] ${accentBadge}`}
