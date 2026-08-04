@@ -43,7 +43,7 @@ export const HERO = {
     { icon: "shield", label: "Trusted\nQuality" },
     { icon: "people", label: "Serving Since\n1989" },
   ],
-  image: "/images/SS.webp",
+  image: "/images/u.png",
   imageAlt:
     "The Saghir Sultan Flour Mills building, a red-brick mill with the company name on its central tower.",
   background: "/images/backgroundimage.webp",
