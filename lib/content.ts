@@ -100,7 +100,7 @@ export const COMPANIES: Company[] = [
     itemsLabel: "Products",
     items: ["Atta", "Maida", "Suji", "Choker", "Fine Atta", "Super Fine Atta", "Pizza Flour"],
     accent: "gold",
-    image: "/images/SS.webp",
+    image: "/images/mill-pic.png",
     imageAlt:
       "The Saghir Sultan Flour Mills building, a red-brick mill with the company name on its central tower.",
     detail: {
@@ -443,7 +443,7 @@ export const FOOTER = {
  */
 export const IMAGES = {
   marquee: [
-    "/images/SS.webp",
+    "/images/mill-pic.png",
     "/images/Petrolpump.webp",
     "/images/Poltryform.webp",
     "/images/Realestate.webp",

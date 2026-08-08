@@ -196,6 +196,7 @@ function Panel({
   const accentText = company.accent === "green" ? "text-cream" : "text-gold";
   const accentBadge =
     company.accent === "green" ? "bg-cream text-pine" : "bg-gold text-espresso";
+  const isFlourMill = company.id === "flour-mills";
 
   return (
     <article
@@ -203,7 +204,11 @@ function Panel({
       className={`relative flex shrink-0 flex-col ${
         reduced
           ? "w-full border-b border-cream/15 px-6 py-16 last:border-b-0 sm:px-10"
-          : "h-full min-h-0 w-screen overflow-hidden px-6 pb-12 pt-2 sm:px-8 lg:h-full lg:w-screen lg:justify-center lg:overflow-visible lg:px-[clamp(2rem,7vw,7rem)] lg:pb-16 lg:pt-40 lg:flex-row lg:items-center lg:gap-14"
+          : `h-full min-h-0 w-screen overflow-hidden pb-12 pt-2 sm:px-8 lg:h-full lg:w-screen lg:justify-center lg:overflow-visible lg:pb-16 lg:pt-40 lg:gap-14 ${
+              isFlourMill
+                ? "px-0 lg:flex-col lg:items-stretch lg:px-0"
+                : "px-6 lg:flex-row lg:items-center lg:px-[clamp(2rem,7vw,7rem)]"
+            }`
       }`}
     >
       {/* Full-card click target — invisible, hidden from assistive tech since
@@ -215,20 +220,36 @@ function Panel({
         className="absolute inset-0 z-[1]"
       />
 
-      <div className="relative mb-3 w-full shrink-0 lg:mb-0 lg:w-[46%] lg:self-center">
+      <div
+        className={`relative shrink-0 ${
+          isFlourMill
+            ? "mb-4 w-full lg:mb-6"
+            : "mb-3 w-full lg:mb-0 lg:w-[46%] lg:self-center"
+        }`}
+      >
         <div data-panel-img className="relative w-full">
           <Image
             src={company.image}
             alt={company.imageAlt}
-            width={1920}
-            height={1200}
-            sizes="(max-width: 1024px) 100vw, 46vw"
-            className="mx-auto h-auto w-full max-h-[34dvh] object-contain object-center sm:max-h-[38dvh] lg:max-h-[58vh]"
+            width={isFlourMill ? 3840 : 1920}
+            height={isFlourMill ? 2160 : 1200}
+            sizes={isFlourMill ? "100vw" : "(max-width: 1024px) 100vw, 46vw"}
+            className={
+              isFlourMill
+                ? "block h-auto w-full object-cover object-center"
+                : "mx-auto h-auto w-full max-h-[34dvh] object-contain object-center sm:max-h-[38dvh] lg:max-h-[58vh]"
+            }
           />
         </div>
       </div>
 
-      <div className="relative z-[2] min-h-0 flex-1 overflow-y-auto lg:overflow-visible lg:w-[46%] lg:flex-none">
+      <div
+        className={`relative z-[2] min-h-0 flex-1 overflow-y-auto lg:overflow-visible ${
+          isFlourMill
+            ? "px-6 sm:px-8 lg:px-[clamp(2rem,7vw,7rem)] lg:w-full"
+            : "lg:w-[46%] lg:flex-none"
+        }`}
+      >
         <div data-panel-anim className="mb-3 flex items-center gap-3 lg:mb-5">
           <span
             className={`inline-flex h-7 items-center rounded-full px-3 text-[0.7rem] font-semibold uppercase tracking-[0.15em] ${accentBadge}`}

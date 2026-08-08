@@ -85,7 +85,7 @@ export function MillIntroReel() {
         >
           <video
             className="h-full w-full object-cover"
-            src="/images/mill-intro.mp4"
+            src="/images/mill.mov"
             poster="/images/mill-intro-poster.jpg"
             autoPlay
             muted
